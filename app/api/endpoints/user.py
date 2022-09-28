@@ -21,6 +21,7 @@ router.include_router(
     tags=['users'],
 )
 
+
 @router.delete(
     '/users/{id}',
     tags=['users'],
@@ -31,4 +32,4 @@ def delete_user(id: str):
     raise HTTPException(
         status_code=405,
         detail="Удаление пользователей запрещено!"
-    ) 
+    )

@@ -23,10 +23,9 @@ class CRUDCharityProject(CRUDBase):
         )
         db_project_id = db_project_id.scalars().first()
         return db_project_id
-    
 
     async def create(
-            self, 
+            self,
             obj_in,
             session: AsyncSession,
             user: Optional[User] = None
@@ -35,7 +34,7 @@ class CRUDCharityProject(CRUDBase):
         if user is not None:
             obj_in_data['user_id'] = user.id
         select_stmt = select(Donation).where(
-            Donation.fully_invested == False
+            Donation.fully_invested is False
         )
         donations = await session.execute(select_stmt)
         donations = donations.scalars().all()
@@ -50,7 +49,7 @@ class CRUDCharityProject(CRUDBase):
                 obj_in_data['invested_amount'] += unused_amount
                 session.add(donation)
             elif unused_amount >= project_need:
-                setattr(donation, 'invested_amount', donation.invested_amount+project_need)
+                setattr(donation, 'invested_amount', donation.invested_amount + project_need)
                 obj_in_data['invested_amount'] = obj_in_data['full_amount']
                 obj_in_data['close_date'] = datetime.now()
                 obj_in_data['fully_invested'] = True
@@ -60,7 +59,6 @@ class CRUDCharityProject(CRUDBase):
         await session.commit()
         await session.refresh(db_obj)
         return db_obj
-
 
     async def update(
             self,
@@ -83,4 +81,4 @@ class CRUDCharityProject(CRUDBase):
         return db_obj
 
 
-charity_project_crud = CRUDCharityProject(CharityProject) 
+charity_project_crud = CRUDCharityProject(CharityProject)

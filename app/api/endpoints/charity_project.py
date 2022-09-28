@@ -14,7 +14,7 @@ from app.api.validators import (check_project_exists,
 from app.core.user import current_superuser
 
 
-router = APIRouter() 
+router = APIRouter()
 
 
 @router.post(
@@ -37,8 +37,6 @@ async def create_new_charity_project(
     '/',
     response_model=list[CharityProjectDB],
     response_model_exclude_none=True,
-   # response_model_exclude={"close_date",}
-
 )
 async def get_all_charity_projects(
         session: AsyncSession = Depends(get_async_session),
@@ -66,7 +64,6 @@ async def remove_charity_project(
 @router.patch(
     '/{project_id}',
     response_model=CharityProjectDB,
-#    response_model_exclude_none=True,
     dependencies=[Depends(current_superuser)],
 )
 async def partially_update_meeting_room(

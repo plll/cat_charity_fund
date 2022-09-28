@@ -1,4 +1,4 @@
-from typing import Optional, Union
+from typing import Optional
 from datetime import datetime
 
 from sqlalchemy import select
@@ -22,9 +22,8 @@ class CRUDDonation(CRUDBase):
         donations = donations.scalars().all()
         return donations
 
-    
     async def create(
-            self, 
+            self,
             obj_in,
             session: AsyncSession,
             user: Optional[User] = None
@@ -33,7 +32,7 @@ class CRUDDonation(CRUDBase):
         if user is not None:
             obj_in_data['user_id'] = user.id
         select_stmt = select(CharityProject).where(
-            CharityProject.fully_invested == False
+            CharityProject.fully_invested is False
         )
         projects = await session.execute(select_stmt)
         projects = projects.scalars().all()
@@ -50,7 +49,7 @@ class CRUDDonation(CRUDBase):
                 obj_in_data['invested_amount'] += project_need
                 session.add(project)
             elif unused_amount < project_need:
-                setattr(project, 'invested_amount', project.invested_amount+unused_amount)
+                setattr(project, 'invested_amount', project.invested_amount + unused_amount)
                 obj_in_data['invested_amount'] = obj_in_data['full_amount']
                 obj_in_data['close_date'] = datetime.now()
                 obj_in_data['fully_invested'] = True
@@ -61,4 +60,5 @@ class CRUDDonation(CRUDBase):
         await session.refresh(db_obj)
         return db_obj
 
-donation_crud = CRUDDonation(Donation) 
+
+donation_crud = CRUDDonation(Donation)
