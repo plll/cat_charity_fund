@@ -50,9 +50,11 @@ class UserManager(IntegerIDMixin, BaseUserManager[User, int]):
                 reason='Password should not contain e-mail'
             )
 
+    # Пример метода для действий после успешной регистрации пользователя.
     async def on_after_register(
             self, user: User, request: Optional[Request] = None
     ):
+        # Вместо print здесь можно было бы настроить отправку письма.
         print(f'Пользователь {user.email} зарегистрирован.')
 
 

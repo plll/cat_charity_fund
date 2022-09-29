@@ -34,7 +34,7 @@ class CRUDCharityProject(CRUDBase):
         if user is not None:
             obj_in_data['user_id'] = user.id
         select_stmt = select(Donation).where(
-            Donation.fully_invested is False
+            Donation.full_amount != Donation.invested_amount
         )
         donations = await session.execute(select_stmt)
         donations = donations.scalars().all()

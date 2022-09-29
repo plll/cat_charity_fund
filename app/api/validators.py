@@ -44,8 +44,8 @@ async def check_unique_project_name(
 
 
 async def check_project_isnt_fully_invested(
-        project: CharityProject,
-        session: AsyncSession
+    project: CharityProject,
+    session: AsyncSession
 ) -> None:
     if project.fully_invested is True:
         raise HTTPException(
@@ -55,8 +55,8 @@ async def check_project_isnt_fully_invested(
 
 
 async def check_update_amount(
-        project_investments: int,
-        new_amount: int
+    project_investments: int,
+    new_amount: int
 ) -> None:
     if project_investments > new_amount:
         raise HTTPException(
