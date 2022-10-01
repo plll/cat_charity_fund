@@ -27,8 +27,7 @@ async def create_new_donation(
 ):
     """Только для суперюзеров."""
     setattr(donation, 'user_id', user.id)
-    donation = await donation_crud.create(donation, session)
-    return donation
+    return await donation_crud.create(donation, session)
 
 
 @router.get(
@@ -41,8 +40,7 @@ async def get_all_donations(
         session: AsyncSession = Depends(get_async_session),
 ):
     """Только для суперюзеров."""
-    all_donations = await donation_crud.get_multi(session)
-    return all_donations
+    return await donation_crud.get_multi(session)
 
 
 @router.get(
@@ -55,5 +53,4 @@ async def get_my_donations(
         session: AsyncSession = Depends(get_async_session),
         user: User = Depends(current_user),
 ):
-    all_donations = await donation_crud.get_my_donations(user.id, session)
-    return all_donations
+    return await donation_crud.get_my_donations(user.id, session)

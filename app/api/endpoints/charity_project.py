@@ -29,8 +29,7 @@ async def create_new_charity_project(
 ):
     """Только для суперюзеров."""
     await check_unique_project_name(charity_project.name, session)
-    new_project = await charity_project_crud.create(charity_project, session)
-    return new_project
+    return await charity_project_crud.create(charity_project, session)
 
 
 @router.get(
@@ -57,8 +56,7 @@ async def remove_charity_project(
     """Только для суперюзеров."""
     project = await check_project_exists(project_id, session)
     await check_project_didnt_have_donations(project)
-    project = await charity_project_crud.remove(project, session)
-    return project
+    return await charity_project_crud.remove(project, session)
 
 
 @router.patch(
